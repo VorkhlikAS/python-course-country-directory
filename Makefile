@@ -20,5 +20,9 @@ lint:
 test:
 	docker compose run app pytest --cov=/src --cov-report html:htmlcov --cov-report term --cov-config=/src/tests/.coveragerc -vv
 
+# запуск вывода информации по городу Москва
+moscow:
+	docker compose run app python main.py --location Moscow
+
 # запуск всех функций поддержки качества кода
 all: format lint test
