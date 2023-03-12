@@ -4,7 +4,7 @@
 
 from decimal import ROUND_HALF_UP, Decimal
 
-from tabulate import tabulate
+from tabulate import SEPARATING_LINE, tabulate
 
 from collectors.models import LocationInfoDTO
 
@@ -50,6 +50,7 @@ class Renderer:
 
         table.extend(
             [
+                SEPARATING_LINE,
                 self.WEATHER_HEADERS,
                 ["Погода", self.location_info.weather.description],
                 ["Температура", f"{self.location_info.weather.temp} °C"],
@@ -65,6 +66,7 @@ class Renderer:
         if len(self.location_info.country_news) > 0:
             table.extend(
                 [
+                    SEPARATING_LINE,
                     self.NEWS_HEADERS,
                 ]
             )
