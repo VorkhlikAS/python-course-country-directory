@@ -6,6 +6,7 @@ from pydantic import Field, BaseModel, validator
 from datetime import datetime
 from typing import Optional, Union
 
+
 class HashableBaseModel(BaseModel):
     """
     Добавление хэшируемости для моделей.
@@ -165,32 +166,32 @@ class WeatherInfoDTO(BaseModel):
     visibility: int
 
 
-    class NewsDTO(BaseModel):
-        """
-        Модель данных для предостовления информации о новостях.
+class NewsDTO(BaseModel):
+    """
+    Модель данных для предостовления информации о новостях.
 
-        .. code-block::
+    .. code-block::
 
-            NewsDTO(
-                source="ABC News",
-                author="STEVE KARNOWSKI Associated Press",
-                published_at=2023-02-25 02:22:40,
-                title="PolyMet mine in Minnesota becomes NewRange Copper Nickel again",
-                description="sample text"
-            )
-        """
+        NewsDTO(
+            source="ABC News",
+            author="STEVE KARNOWSKI Associated Press",
+            published_at=2023-02-25 02:22:40,
+            title="PolyMet mine in Minnesota becomes NewRange Copper Nickel again",
+            description="sample text"
+        )
+    """
 
-        source: str
-        author: Union[str, None]
-        published_at: datetime
-        title: str
-        description: str
+    source: str
+    author: Union[str, None]
+    published_at: datetime
+    title: str
+    description: str
 
-        @validator("author")
-        def validate_author(cls, value):
-            if value is None or value == "":
-                return "unknown"
-            return value
+    @validator("author")
+    def validate_author(cls, value):
+        if value is None or value == "":
+            return "unknown"
+        return value
 
 
 class LocationInfoDTO(BaseModel):
@@ -241,12 +242,13 @@ class LocationInfoDTO(BaseModel):
             ),
             currency_rates={
                 "EUR": 0.016503,
-                capital_latitude=20.55,
-                capital_longitude=13.44,
             },
+            capital_latitude=20.55,
+            capital_longitude=13.44,
         )
     """
 
     location: CountryDTO
     weather: WeatherInfoDTO
     currency_rates: dict[str, float]
+    country_news: Optional[list[NewsDTO]]

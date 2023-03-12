@@ -268,7 +268,6 @@ class NewsCollector(BaseCollector):
         """
         Возвращает путь к файлу для хранения данных новостей JSON.
         """
-
         return f"{MEDIA_PATH}/news/{filename}.json"
 
     @staticmethod
@@ -276,7 +275,6 @@ class NewsCollector(BaseCollector):
         """
         Возвращает TTL (время жизни) кэша для новостных данных.
         """
-
         return CACHE_TTL_NEWS
 
     async def collect(
@@ -285,7 +283,6 @@ class NewsCollector(BaseCollector):
         """
         Собирает данные о новостях для указанных стран и сохраняет их в JSON.
         """
-
         target_dir_path = f"{MEDIA_PATH}/news"
         # если целевой директории еще не существует, то она создается
         if not await aiofiles.os.path.exists(target_dir_path):
@@ -309,12 +306,10 @@ class NewsCollector(BaseCollector):
     async def read(cls, location: LocationDTO, number: int) -> Optional[NewsDTO]:
         """
         Чтение данных из кэша.
-
         :param location: Локация для получения данных
         :param number: Порядковый номер новости
         :return:
         """
-
         filename = f"{location.country}".lower()
 
         # читаем данные из JSON

@@ -34,6 +34,11 @@ class NewsClient(BaseClient):
         :return:
         """
 
-        endpoint = '{base_url}?q={country}&sortBy=publishedAt&apiKey={key}'
+        endpoint = "{base_url}?q={country}&sortBy=publishedAt&apiKey={key}"
         return await self._request(
-            endpoint.format(base_url=await self.get_base_url(), country=country, key=API_KEY_NEWSPORTAL))
+            endpoint.format(
+                base_url=await self.get_base_url(),
+                country=country,
+                key=API_KEY_NEWSPORTAL,
+            )
+        )

@@ -8,16 +8,16 @@ from typing import Optional
 from collectors.collector import (
     CountryCollector,
     CurrencyRatesCollector,
-    WeatherCollector,
     NewsCollector,
+    WeatherCollector,
 )
 from collectors.models import (
     CountryDTO,
     CurrencyInfoDTO,
     LocationDTO,
     LocationInfoDTO,
-    WeatherInfoDTO,
     NewsDTO,
+    WeatherInfoDTO,
 )
 
 
@@ -37,10 +37,18 @@ class Reader:
         country = await self.find_country(location)
         if country:
             weather = await self.get_weather(
-                LocationDTO(capital=country.capital, alpha2code=country.alpha2code)
+                LocationDTO(
+                    capital=country.capital,
+                    alpha2code=country.alpha2code,
+                    country=country.name,
+                )
             )
             news = await self.get_news(
-                LocationDTO(capital=country.capital, alpha2code=country.alpha2code)
+                LocationDTO(
+                    capital=country.capital,
+                    alpha2code=country.alpha2code,
+                    country=country.name,
+                )
             )
             currency_rates = await self.get_currency_rates(country.currencies)
 
@@ -89,11 +97,14 @@ class Reader:
         :param location: Объект локации для получения данных
         :return:
         """
-        return [
-            await NewsCollector.read(location=location, number=i)
-            for i in range(3)
-            if i < len(location.news_sources)
-        ]
+        news = []
+        for i in range(3):
+            try:
+                news.append(await NewsCollector.read(location=location, number=i))
+            except IndexError:
+                continue
+
+        return news
 
     async def find_country(self, search: str) -> Optional[CountryDTO]:
         """
